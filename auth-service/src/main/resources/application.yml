@@ -1,0 +1,27 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://52.77.209.181:5432/user_service
+    username: quangduong
+    password: 292003
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: true
+    show-sql: true
+  sql:
+    init:
+      mode: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
