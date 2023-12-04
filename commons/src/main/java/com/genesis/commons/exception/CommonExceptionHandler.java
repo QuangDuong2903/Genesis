@@ -85,7 +85,7 @@ public interface CommonExceptionHandler {
         }
 
         return ProblemDetailsBuilder.statusAndDetail(HttpStatus.BAD_REQUEST, "Validation error on request object")
-                .type(URI.create("about:blank"))
+                .type(URI.create("https://problems.genesis.com/validation-error"))
                 .title("Validation error")
                 .violations(new ArrayList<>(violations.values()))
                 .build();

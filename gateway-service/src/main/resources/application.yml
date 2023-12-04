@@ -1,28 +1,18 @@
 server:
-  port: 8000
+  port: 8080
 
 spring:
   application:
-    name: auth-service
-  datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/user_service
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: true
-    open-in-view: false
-  sql:
-    init:
-      mode: never
+    name: gateway-service
   profiles:
     active: dev
   config:
     import: vault://
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8000
   cloud:
     consul:
       host: ${CONSUL_HOST}
@@ -44,6 +34,15 @@ spring:
       scheme: http
       host: localhost
       port: 8200
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/oauth2/**, /api/auth/signup
+          filters:
+            - RewritePath=/api/oauth2/(?<segment>.*), /oauth2/$\{segment}
+            - RewritePath=/api/auth/signup, /signup
 
 management:
   endpoints:
