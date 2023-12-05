@@ -11,6 +11,8 @@
     <modules>
         <module>auth-service</module>
         <module>gateway-service</module>
+        <module>order-service</module>
+        <module>product-service</module>
         <module>commons</module>
     </modules>
 

@@ -43,6 +43,18 @@ spring:
           filters:
             - RewritePath=/api/oauth2/(?<segment>.*), /oauth2/$\{segment}
             - RewritePath=/api/auth/signup, /signup
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/(?<segment>.*), /product/$\{segment}
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - RewritePath=/api/order/(?<segment>.*), /order/$\{segment}
 
 management:
   endpoints:

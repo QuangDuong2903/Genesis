@@ -1,0 +1,54 @@
+server:
+  port: 8010
+  servlet:
+    context-path: /product
+
+spring:
+  application:
+    name: product-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/product_service
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    open-in-view: false
+  sql:
+    init:
+      mode: never
+  profiles:
+    active: dev
+  config:
+    import: vault://
+  cloud:
+    consul:
+      host: ${CONSUL_HOST}
+      port: ${CONSUL_PORT}
+      discovery:
+        instance-id: ${spring.application.name}:${random.value}
+        health-check-path: ${server.servlet.context-path}/actuator/health
+        health-check-interval: 30s
+        acl-token: ${CONSUL_TOKEN}
+        fail-fast: false
+        prefer-ip-address: true
+    vault:
+      kv:
+        enabled: true
+        default-context: ${spring.application.name}
+        backend: genesis
+      authentication: token
+      token: hvs.SxOv3K9RpSR0Xja8fr10FCUa
+      scheme: http
+      host: localhost
+      port: 8200
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
