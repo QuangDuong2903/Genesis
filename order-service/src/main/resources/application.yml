@@ -1,11 +1,13 @@
 server:
-  port: 8000
+  port: 8020
+  servlet:
+    context-path: /order
 
 spring:
   application:
-    name: auth-service
+    name: order-service
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/user_service
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/order_service
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   rabbitmq:
@@ -34,7 +36,7 @@ spring:
       port: ${CONSUL_PORT}
       discovery:
         instance-id: ${spring.application.name}:${random.value}
-        health-check-path: /actuator/health
+        health-check-path: ${server.servlet.context-path}/actuator/health
         health-check-interval: 30s
         acl-token: ${CONSUL_TOKEN}
         fail-fast: false
@@ -55,3 +57,4 @@ management:
     web:
       exposure:
         include: "*"
+

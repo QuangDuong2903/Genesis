@@ -10,6 +10,11 @@ spring:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/product_service
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
