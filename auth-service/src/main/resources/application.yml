@@ -49,6 +49,14 @@ spring:
       scheme: http
       host: localhost
       port: 8200
+    function:
+      definition: handleDebitBalanceCommand
+    stream:
+      bindings:
+        handleDebitBalanceCommand-in-0:
+          destination: debit-balance-topic
+        handleDebitBalanceCommand-out-0:
+          destination: debit-balance-reply-topic
 
 management:
   endpoints:

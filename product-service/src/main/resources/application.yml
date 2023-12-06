@@ -51,6 +51,18 @@ spring:
       scheme: http
       host: localhost
       port: 8200
+    function:
+      definition: handleReduceQuantityCommand;handleCompensateQuantityCommand
+    stream:
+      bindings:
+        handleReduceQuantityCommand-in-0:
+          destination: reduce-quantity-topic
+        handleReduceQuantityCommand-out-0:
+          destination: reduce-quantity-reply-topic
+        handleCompensateQuantityCommand-in-0:
+          destination: compensate-quantity-topic
+        handleCompensateQuantityCommand-out-0:
+          destination: compensate-quantity-reply-topic
 
 management:
   endpoints:

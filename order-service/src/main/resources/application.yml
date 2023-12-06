@@ -51,10 +51,19 @@ spring:
       scheme: http
       host: localhost
       port: 8200
+    function:
+      definition: handleReduceQuantityReply;handleDebitBalanceReply;handleCompensateQuantityReply
+    stream:
+      bindings:
+        handleReduceQuantityReply-in-0:
+          destination: reduce-quantity-reply-topic
+        handleDebitBalanceReply-in-0:
+          destination: debit-balance-reply-topic
+        handleCompensateQuantityReply-in-0:
+          destination: compensate-quantity-reply-topic
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-

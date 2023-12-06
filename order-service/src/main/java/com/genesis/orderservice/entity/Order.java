@@ -1,7 +1,7 @@
 package com.genesis.orderservice.entity;
 
 import com.genesis.commons.persistence.BaseEntity;
-import com.genesis.orderservice.enumeration.OrderStatus;
+import com.genesis.commons.enumeration.OrderStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

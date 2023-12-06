@@ -1,4 +1,4 @@
-package com.genesis.orderservice.enumeration;
+package com.genesis.commons.enumeration;
 
 public enum OrderStatus {
     CREATED,

@@ -38,4 +38,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return RestResponse.created(null);
     }
+
+    @Override
+    public void debitBalance(Long id, BigDecimal amount) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        if (user.getBalance().compareTo(amount) < 0)
+            throw new RuntimeException("User id: " + id + " don't have enough balance");
+        user.setBalance(user.getBalance().subtract(amount));
+        userRepository.save(user);
+    }
+
 }

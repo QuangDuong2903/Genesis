@@ -8,4 +8,8 @@ public interface ProductService {
 
     RestResponse<ProductResponse> createProduct(CreateProductRequest request);
 
+    void reduceQuantity(Long id, Long amount);
+
+    void compensateQuantity(Long id, Long amount);
+
 }

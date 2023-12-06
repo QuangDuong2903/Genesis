@@ -1,5 +1,6 @@
 package com.genesis.orderservice.dto.response;
 
+import com.genesis.commons.enumeration.OrderStatus;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ public record OrderResponse(
         @Nullable
         String updatedBy,
         BigDecimal total,
+        OrderStatus status,
         List<CartItemResponse> items
 ) {
 

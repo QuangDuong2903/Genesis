@@ -1,5 +1,6 @@
 package com.genesis.productservice.service.impl;
 
+import com.genesis.commons.exception.ResourceNotFoundException;
 import com.genesis.commons.response.RestResponse;
 import com.genesis.productservice.dto.request.CreateProductRequest;
 import com.genesis.productservice.dto.response.ProductResponse;
@@ -25,5 +26,23 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.toProduct(request);
         productRepository.save(product);
         return RestResponse.created(productMapper.toProductResponse(product));
+    }
+
+    @Override
+    public void reduceQuantity(Long id, Long amount) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        if (product.getQuantity() < amount)
+            throw new RuntimeException("Product with id: " + id + "not enough quantity");
+        product.setQuantity(product.getQuantity() - amount);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void compensateQuantity(Long id, Long amount) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        product.setQuantity(product.getQuantity() + amount);
+        productRepository.save(product);
     }
 }
