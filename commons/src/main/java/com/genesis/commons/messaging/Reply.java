@@ -1,4 +1,4 @@
-package com.genesis.commons.saga.reply;
+package com.genesis.commons.messaging;
 
 public record Reply<ID, T> (
         ID identifier,

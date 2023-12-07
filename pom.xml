@@ -13,6 +13,7 @@
         <module>gateway-service</module>
         <module>order-service</module>
         <module>product-service</module>
+        <module>querying-service</module>
         <module>commons</module>
     </modules>
 

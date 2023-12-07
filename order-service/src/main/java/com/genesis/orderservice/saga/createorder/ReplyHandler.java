@@ -1,7 +1,7 @@
 package com.genesis.orderservice.saga.createorder;
 
 import com.genesis.commons.saga.aggregate.CreateOrderAggregate;
-import com.genesis.commons.saga.reply.Reply;
+import com.genesis.commons.messaging.Reply;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.genesis.commons.saga.command;
+package com.genesis.commons.messaging;
 
 public record Command<ID, T>(
         ID identifier,
