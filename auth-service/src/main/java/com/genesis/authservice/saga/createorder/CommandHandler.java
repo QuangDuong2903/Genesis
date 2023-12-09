@@ -7,6 +7,7 @@ import com.genesis.commons.saga.aggregate.CreateOrderAggregate;
 import com.genesis.commons.messaging.Command;
 import com.genesis.commons.messaging.Reply;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
@@ -14,6 +15,7 @@ import org.springframework.messaging.support.MessageBuilder;
 
 import java.util.function.Function;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class CommandHandler {
@@ -32,6 +34,8 @@ public class CommandHandler {
             try {
                 userService.debitBalance(aggregate.getUserId(), aggregate.getTotal());
             } catch (Exception e) {
+                log.error(e.getMessage());
+                e.printStackTrace();
                 return MessageBuilder.withPayload(Reply.failure(command.identifier(), aggregate)).build();
             }
             return MessageBuilder.withPayload(Reply.success(command.identifier(), aggregate)).build();

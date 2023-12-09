@@ -1,5 +1,6 @@
 package com.genesis.orderservice.mapper;
 
+import com.genesis.commons.cqrs.aggregate.OrderAggregate;
 import com.genesis.commons.enumeration.OrderStatus;
 import com.genesis.commons.utils.SecurityUtils;
 import com.genesis.orderservice.dto.request.CreateOrderRequest;
@@ -24,6 +25,8 @@ public interface OrderMapper {
         order.getItems().forEach(item -> item.setOrder(order));
         return order;
     }
+
+    OrderAggregate toAggregate(Order order);
 
     OrderResponse toOrderResponse(Order order);
 

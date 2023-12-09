@@ -1,11 +1,13 @@
 package com.genesis.orderservice.saga.createorder;
 
+import com.genesis.commons.cqrs.channel.CQRSChannel;
 import com.genesis.commons.enumeration.OrderStatus;
 import com.genesis.commons.exception.ResourceNotFoundException;
 import com.genesis.commons.saga.aggregate.CreateOrderAggregate;
 import com.genesis.commons.saga.channel.CreateOrderSagaChannel;
 import com.genesis.commons.messaging.Command;
 import com.genesis.orderservice.entity.Order;
+import com.genesis.orderservice.mapper.OrderMapper;
 import com.genesis.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.EnumSet;
@@ -36,6 +39,8 @@ public class CreateOrderSagaStateMachineConfiguration extends
     private final StreamBridge streamBridge;
 
     private final OrderRepository orderRepository;
+
+    private final OrderMapper orderMapper;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<CreateOrderSagaState, CreateOrderSagaEvent> config) throws Exception {
@@ -147,6 +152,16 @@ public class CreateOrderSagaStateMachineConfiguration extends
         return ctx -> {
             CreateOrderAggregate aggregate = ctx.getExtendedState().get("aggregate", CreateOrderAggregate.class);
             cancelOrder(aggregate.getOrderId());
+            aggregate.setStatus(OrderStatus.CANCELED);
+            streamBridge.send(CQRSChannel.UPDATE_ORDER, MessageBuilder.withPayload(
+                    new Command<>(aggregate.getOrderId(),
+                            orderMapper.toAggregate(orderRepository.findByIdWithItems(aggregate.getOrderId())
+                                    .orElseThrow(() ->
+                                            new ResourceNotFoundException("Order", "id", aggregate.getOrderId())
+                                    )
+                            )
+                    )
+            ).build());
             ctx.getStateMachine().sendEvent(Mono.just(MessageBuilder.withPayload(CreateOrderSagaEvent.CANCEL_ORDER)
                     .build())).subscribe();
         };
@@ -157,6 +172,16 @@ public class CreateOrderSagaStateMachineConfiguration extends
         return ctx -> {
             CreateOrderAggregate aggregate = ctx.getExtendedState().get("aggregate", CreateOrderAggregate.class);
             completeOrder(aggregate.getOrderId());
+            aggregate.setStatus(OrderStatus.COMPLETED);
+            streamBridge.send(CQRSChannel.UPDATE_ORDER, MessageBuilder.withPayload(
+                    new Command<>(aggregate.getOrderId(),
+                            orderMapper.toAggregate(orderRepository.findByIdWithItems(aggregate.getOrderId())
+                                    .orElseThrow(() ->
+                                            new ResourceNotFoundException("Order", "id", aggregate.getOrderId())
+                                    )
+                            )
+                    )
+            ).build());
             ctx.getStateMachine().sendEvent(Mono.just(MessageBuilder.withPayload(CreateOrderSagaEvent.COMPLETE_ORDER)
                     .build())).subscribe();
         };

@@ -21,4 +21,9 @@ public class ReferenceMapper {
         return entityManager.getReference(type, id);
     }
 
+    @ObjectFactory
+    public <T> T map(@NonNull final Long id, @TargetType Class<T> type) {
+        return entityManager.getReference(type, id);
+    }
+
 }

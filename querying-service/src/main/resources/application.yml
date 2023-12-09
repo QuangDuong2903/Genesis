@@ -52,13 +52,21 @@ spring:
       host: localhost
       port: 8200
     function:
-      definition: handleCreateCategoryCommand;handleUpdateCategoryCommand
+      definition: handleCreateCategoryCommand;handleUpdateCategoryCommand;handleCreateOrderCommand;handleUpdateOrderCommand;handleUpdateUserCommand;handleUpdateProductCommand
     stream:
       bindings:
         handleCreateCategoryCommand-in-0:
           destination: create-category-topic
         handleUpdateCategoryCommand-in-0:
           destination: update-category-topic
+        handleCreateOrderCommand-in-0:
+          destination: create-order-topic
+        handleUpdateOrderCommand-in-0:
+          destination: update-order-topic
+        handleUpdateUserCommand-in-0:
+          destination: update-user-topic
+        handleUpdateProductCommand-in-0:
+          destination: update-product-topic
 
 management:
   endpoints:
