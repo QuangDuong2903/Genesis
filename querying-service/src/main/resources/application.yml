@@ -68,6 +68,10 @@ spring:
         handleUpdateProductCommand-in-0:
           destination: update-product-topic
 
+redis:
+  host: ${REDIS_HOST}
+  port: ${REDIS_PORT}
+
 management:
   endpoints:
     web:

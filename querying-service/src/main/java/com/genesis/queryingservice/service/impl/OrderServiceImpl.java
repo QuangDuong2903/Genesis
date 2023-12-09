@@ -1,25 +1,30 @@
 package com.genesis.queryingservice.service.impl;
 
 import com.genesis.commons.cqrs.aggregate.OrderAggregate;
-import com.genesis.commons.enumeration.OrderStatus;
 import com.genesis.commons.exception.ResourceNotFoundException;
+import com.genesis.commons.response.ListResponse;
+import com.genesis.commons.response.RestResponse;
+import com.genesis.queryingservice.dto.response.OrderResponse;
 import com.genesis.queryingservice.entity.Order;
 import com.genesis.queryingservice.entity.OrderProduct;
 import com.genesis.queryingservice.entity.OrderProductKey;
-import com.genesis.queryingservice.entity.Product;
-import com.genesis.queryingservice.entity.User;
 import com.genesis.queryingservice.mapper.OrderMapper;
 import com.genesis.queryingservice.repository.OrderRepository;
 import com.genesis.queryingservice.repository.ProductRepository;
-import com.genesis.queryingservice.repository.UserRepository;
 import com.genesis.queryingservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 @Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -28,6 +33,16 @@ public class OrderServiceImpl implements OrderService {
     private final ProductRepository productRepository;
 
     private final OrderMapper orderMapper;
+
+    @Override
+    @Cacheable("orders")
+    public RestResponse<ListResponse<OrderResponse>> getListOrder(int page, int size, boolean all, BigDecimal price) {
+        Pageable pageable = all ? Pageable.unpaged() : PageRequest.of(page - 1, size);
+        return RestResponse.ok(ListResponse.of(orderRepository
+                .findAllOrderHaveProductPriceGreaterThan(price, pageable)
+                .map(orderMapper::toOrderResponse))
+        );
+    }
 
     @Override
     public void createOrder(OrderAggregate aggregate) {

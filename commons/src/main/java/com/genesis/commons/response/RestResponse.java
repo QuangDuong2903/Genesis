@@ -2,10 +2,12 @@ package com.genesis.commons.response;
 
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 public record RestResponse<T>(
         int status,
         T data
-) {
+) implements Serializable {
 
     public static <T> RestResponse<T> ok(T data) {
         return new RestResponse<>(HttpStatus.OK.value(), data);
