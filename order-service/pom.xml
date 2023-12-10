@@ -20,6 +20,7 @@
 		<caffeine.version>3.1.8</caffeine.version>
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<zipkin-reporter-brave.version>2.16.4</zipkin-reporter-brave.version>
+		<micrometer-observation.version>1.12.0</micrometer-observation.version>
 		<micrometer-tracing-bridge-brave.version>1.1.5</micrometer-tracing-bridge-brave.version>
 		<rsql-jpa-spring-boot-starter.verison>6.0.17</rsql-jpa-spring-boot-starter.verison>
 		<spring-statemachine.version>3.2.1</spring-statemachine.version>
@@ -66,16 +67,22 @@
 			<artifactId>caffeine</artifactId>
 			<version>${caffeine.version}</version>
 		</dependency>
-		<!--		<dependency>-->
-		<!--			<groupId>io.micrometer</groupId>-->
-		<!--			<artifactId>micrometer-tracing-bridge-brave</artifactId>-->
-		<!--			<version>${micrometer-tracing-bridge-brave.version}</version>-->
-		<!--		</dependency>-->
-		<!--		<dependency>-->
-		<!--			<groupId>io.zipkin.reporter2</groupId>-->
-		<!--			<artifactId>zipkin-reporter-brave</artifactId>-->
-		<!--			<version>${zipkin-reporter-brave.version}</version>-->
-		<!--		</dependency>-->
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+			<version>${micrometer-tracing-bridge-brave.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+			<version>${zipkin-reporter-brave.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-observation</artifactId>
+			<version>${micrometer-observation.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

@@ -43,21 +43,53 @@ spring:
           filters:
             - RewritePath=/api/oauth2/(?<segment>.*), /oauth2/$\{segment}
             - RewritePath=/api/auth/signup, /signup
-        - id: product-service
+        - id: product
           uri: lb://product-service
           predicates:
-            - Path=/api/product/**
+            - Path=/api/products/**
           filters:
-            - RewritePath=/api/product/(?<segment>.*), /product/$\{segment}
-        - id: order-service
+            - RewritePath=/api/products, /product/products
+            - RewritePath=/api/products/(?<segment>.*), /product/products/$\{segment}
+        - id: category
+          uri: lb://product-service
+          predicates:
+            - Path=/api/categories/**
+          filters:
+            - RewritePath=/api/categories, /product/categories
+            - RewritePath=/api/categories/(?<segment>.*), /product/categories/$\{segment}
+        - id: get-orders
+          uri: lb://querying-service
+          predicates:
+            - Method=GET
+            - Path=/api/orders/**
+          filters:
+            - RewritePath=/api/orders, /querying/orders
+            - RewritePath=/api/orders/(?<segment>.*), /querying/orders/$\{segment}
+        - id: order
           uri: lb://order-service
           predicates:
-            - Path=/api/order/**
+            - Path=/api/orders/**
           filters:
-            - RewritePath=/api/order/(?<segment>.*), /order/$\{segment}
+            - RewritePath=/api/orders, /order/orders
+            - RewritePath=/api/orders/(?<segment>.*), /order/orders/$\{segment}
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_HOST}:${ZIPKIN_PORT}/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: TRACE
+        cloud:
+          gateway: TRACE
