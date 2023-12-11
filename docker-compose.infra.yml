@@ -1,0 +1,74 @@
+version: '3.8'
+
+name: genesis-infra
+
+services:
+  genesis-infra-prometheus:
+    container_name: genesis-infra-prometheus
+    image: prom/prometheus:v2.48.1
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - genesis-network
+
+  genesis-infra-grafana:
+    container_name: genesis-infra-grafana
+    image: grafana/grafana:10.2.2
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - genesis-network
+
+  genesis-infra-consul:
+    image: hashicorp/consul:1.14
+    container_name: genesis-infra-consul
+    restart: always
+    ports:
+      - "8500:8500"
+      - "8600:8600/tcp"
+      - "8600:8600/udp"
+    volumes:
+      - consul:/consul/data
+      - ./docker/consul/acl.json:/consul/config/acl.json
+    command: "agent -server -ui -node=server-1 -bootstrap-expect=1 -client=0.0.0.0"
+    networks:
+      - genesis-network
+
+  genesis-infra-vault:
+    image: hashicorp/vault:1.15
+    container_name: genesis-infra-vault
+    hostname: vault
+    restart: always
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_API_ADDR: "http://0.0.0.0:8200"
+      VAULT_LOCAL_CONFIG: '{"storage": {"file": {"path": "/vault/file"}}, "listener": [{"tcp": { "address": "0.0.0.0:8200", "tls_disable": true}}], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true}'
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-file:/vault/file
+      - vault-log:/vault/log
+      - vault-logs:/vault/logs
+    command: "server"
+    networks:
+      - genesis-network
+
+volumes:
+  prometheus:
+  consul:
+  vault-file:
+  vault-log:
+  vault-logs:
+
+networks:
+  genesis-network:
+    external: true

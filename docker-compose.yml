@@ -1,0 +1,108 @@
+version: '3.8'
+
+name: genesis
+
+services:
+  genesis-auth-service:
+    container_name: genesis-auth-service
+    image: genesis-auth-service
+    restart: unless-stopped
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: auth-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      VAULT_HOST: genesis-infra-vault
+      VAULT_SCHEME: http
+      VAULT_PORT: 8200
+      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    ports:
+      - "8000:8000"
+    networks:
+      - genesis-network
+
+  genesis-gateway-service:
+    container_name: genesis-gateway-service
+    image: genesis-gateway-service
+    restart: unless-stopped
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: gateway-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      VAULT_HOST: genesis-infra-vault
+      VAULT_SCHEME: http
+      VAULT_PORT: 8200
+      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    ports:
+      - "8080:8080"
+    networks:
+      - genesis-network
+
+  genesis-order-service:
+    container_name: genesis-order-service
+    image: genesis-order-service
+    restart: unless-stopped
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: order-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      VAULT_HOST: genesis-infra-vault
+      VAULT_SCHEME: http
+      VAULT_PORT: 8200
+      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    ports:
+      - "8020:8020"
+    networks:
+      - genesis-network
+
+  genesis-product-service:
+    container_name: genesis-product-service
+    image: genesis-product-service
+    restart: unless-stopped
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: product-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      VAULT_HOST: genesis-infra-vault
+      VAULT_SCHEME: http
+      VAULT_PORT: 8200
+      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    ports:
+      - "8010:8010"
+    networks:
+      - genesis-network
+
+  genesis-query-service:
+    container_name: genesis-query-service
+    image: genesis-query-service
+    restart: unless-stopped
+    build:
+      context: ./query-service
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: query-service
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      VAULT_HOST: genesis-infra-vault
+      VAULT_SCHEME: http
+      VAULT_PORT: 8200
+      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    ports:
+      - "8030:8030"
+    networks:
+      - genesis-network
+
+networks:
+  genesis-network:
+    external: true

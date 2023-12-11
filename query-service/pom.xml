@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.genesis</groupId>
-	<artifactId>querying-service</artifactId>
+	<artifactId>query-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>querying-service</name>
-	<description>querying-service</description>
+	<name>query-service</name>
+	<description>query-service</description>
 	<properties>
 		<java.version>17</java.version>
 		<lombok.version>1.18.30</lombok.version>
@@ -81,6 +81,11 @@
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-observation</artifactId>
 			<version>${micrometer-observation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>

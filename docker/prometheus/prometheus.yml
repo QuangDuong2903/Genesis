@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: 'genesis-auth-service'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['genesis-auth-service:8000']
+        labels:
+          application: 'Auth Service Application'
+
+  - job_name: 'gateway-service'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['genesis-gateway-service:8080']
+        labels:
+          application: 'Gateway Service Application'
+
+  - job_name: 'order-service'
+    metrics_path: /order/actuator/prometheus
+    static_configs:
+      - targets: ['genesis-order-service:8020']
+        labels:
+          application: 'Order Service Application'
+
+  - job_name: 'product-service'
+    metrics_path: /product/actuator/prometheus
+    static_configs:
+      - targets: ['genesis-product-service:8010']
+        labels:
+          application: 'Product Service Application'
+
+  - job_name: 'querying-service'
+    metrics_path: /querying/actuator/prometheus
+    static_configs:
+      - targets: ['genesis-querying-service:8030']
+        labels:
+          application: 'Querying Service Application'
