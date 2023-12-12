@@ -7,13 +7,13 @@ services:
     container_name: genesis-infra-prometheus
     image: prom/prometheus:v2.48.1
     restart: always
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
     volumes:
       - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus:/prometheus
     ports:
       - "9090:9090"
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
     networks:
       - genesis-network
 

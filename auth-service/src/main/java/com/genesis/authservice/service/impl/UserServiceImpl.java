@@ -1,6 +1,9 @@
 package com.genesis.authservice.service.impl;
 
+import com.genesis.authservice.client.OrderServiceClient;
+import com.genesis.authservice.client.dto.response.OrderResponse;
 import com.genesis.authservice.dto.request.SignUpRequest;
+import com.genesis.authservice.dto.response.UserResponse;
 import com.genesis.authservice.entity.Role;
 import com.genesis.authservice.entity.User;
 import com.genesis.authservice.mapper.UserMapper;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     private final UserMapper userMapper;
+
+    private final OrderServiceClient orderServiceClient;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -43,6 +49,34 @@ public class UserServiceImpl implements UserService {
                 .withRoles(Set.of(role));
         userRepository.save(user);
         return RestResponse.created(null);
+    }
+
+    @Override
+    public RestResponse<UserResponse> getOneUser(Long id, boolean failure) {
+        List<OrderResponse> orders = orderServiceClient.getListOrder(id, true, failure).data().items();
+
+        return userRepository.findByIdWithRoles(id)
+                .map(user -> userMapper.toUserResponse(user)
+                        .withOrders(orders.stream().map(order -> UserResponse.OrderResponse.builder()
+                                        .id(order.id())
+                                        .createdAt(order.createdAt())
+                                        .updatedAt(order.updatedAt())
+                                        .createdBy(order.createdBy())
+                                        .updatedBy(order.updatedBy())
+                                        .total(order.total())
+                                        .status(order.status())
+                                        .items(order.items().stream().map(item -> UserResponse.OrderResponse
+                                                .OrderItemResponse.builder()
+                                                .id(item.productId())
+                                                .quantity(item.quantity())
+                                                .build()
+                                        ).toList())
+                                        .build()
+                                ).toList()
+                        )
+                )
+                .map(RestResponse::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
     @Override

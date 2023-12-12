@@ -93,3 +93,12 @@ for field **Path for this secret**. You can enable the Json above and paste this
 > **_NOTE:_** You have to change the value depend on your system.
 
 Identify all env variable in _application.yml_ file and do the same with other services.
+
+At root folder, run this command to build jar files
+```commandline
+./mvnw clean install -DskipTests
+```
+Run all services
+```commandline
+docker compose -f docker-compose.yml up -d
+```

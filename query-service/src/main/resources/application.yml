@@ -1,11 +1,11 @@
 server:
   port: 8030
   servlet:
-    context-path: /querying
+    context-path: /query
 
 spring:
   application:
-    name: querying-service
+    name: query-service
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/querying_service
     username: ${DB_USERNAME}

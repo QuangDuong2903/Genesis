@@ -1,4 +1,4 @@
-package com.genesis.orderservice.dto.response;
+package com.genesis.authservice.client.dto.response;
 
 import com.genesis.commons.enumeration.OrderStatus;
 import org.springframework.lang.Nullable;

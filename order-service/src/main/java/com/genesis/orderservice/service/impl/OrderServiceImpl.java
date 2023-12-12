@@ -6,6 +6,7 @@ import com.genesis.commons.enumeration.OrderStatus;
 import com.genesis.commons.exception.ResourceNotFoundException;
 import com.genesis.commons.messaging.Command;
 import com.genesis.commons.persistence.BaseEntity;
+import com.genesis.commons.response.ListResponse;
 import com.genesis.commons.response.RestResponse;
 import com.genesis.commons.saga.aggregate.CreateOrderAggregate;
 import com.genesis.orderservice.dto.request.CreateOrderRequest;
@@ -15,8 +16,13 @@ import com.genesis.orderservice.mapper.OrderMapper;
 import com.genesis.orderservice.repository.OrderRepository;
 import com.genesis.orderservice.saga.createorder.CreateOrderSagaManager;
 import com.genesis.orderservice.service.OrderService;
+import io.github.perplexhub.rsql.RSQLJPASupport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +39,18 @@ public class OrderServiceImpl implements OrderService {
     private final CreateOrderSagaManager createOrderSagaManager;
 
     private final StreamBridge streamBridge;
+
+    @Override
+    public RestResponse<ListResponse<OrderResponse>> getListOrder(int page, int size, Long userId,
+                                                                  boolean all, boolean failure) {
+        if (failure)
+            throw new RuntimeException("Exception at order service");
+        Pageable pageable = all ? Pageable.unpaged() : PageRequest.of(page - 1, size);
+        Page<OrderResponse> responses = orderRepository
+                .findAllByUserIdWithOrderItems(userId, pageable)
+                .map(orderMapper::toOrderResponse);
+        return RestResponse.ok(ListResponse.of(responses));
+    }
 
     @Override
     public RestResponse<OrderResponse> createOrder(CreateOrderRequest request) {

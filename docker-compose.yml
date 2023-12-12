@@ -13,7 +13,7 @@ services:
       args:
         SERVICE_NAME: auth-service
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
@@ -33,7 +33,7 @@ services:
       args:
         SERVICE_NAME: gateway-service
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
@@ -53,7 +53,7 @@ services:
       args:
         SERVICE_NAME: order-service
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
@@ -73,7 +73,7 @@ services:
       args:
         SERVICE_NAME: product-service
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
@@ -93,7 +93,7 @@ services:
       args:
         SERVICE_NAME: query-service
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200

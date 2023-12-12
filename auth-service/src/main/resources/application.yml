@@ -45,10 +45,10 @@ spring:
         default-context: ${spring.application.name}
         backend: genesis
       authentication: token
-      token: ${VAULT_TOKEN}
-      scheme: ${VAULT_SCHEME}
-      host: ${VAULT_HOST}
-      port: ${VAULT_PORT}
+      token: ${VAULT_TOKEN:hvs.oRQnuUvCLMPYf1UQw0cEW3Yb}
+      scheme: ${VAULT_SCHEME:http}
+      host: ${VAULT_HOST:localhost}
+      port: ${VAULT_PORT:8200}
     function:
       definition: handleDebitBalanceCommand
     stream:

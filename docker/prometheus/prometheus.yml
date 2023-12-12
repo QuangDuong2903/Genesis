@@ -31,9 +31,9 @@ scrape_configs:
         labels:
           application: 'Product Service Application'
 
-  - job_name: 'querying-service'
-    metrics_path: /querying/actuator/prometheus
+  - job_name: 'query-service'
+    metrics_path: /query/actuator/prometheus
     static_configs:
-      - targets: ['genesis-querying-service:8030']
+      - targets: ['genesis-query-service:8030']
         labels:
-          application: 'Querying Service Application'
+          application: 'Query Service Application'

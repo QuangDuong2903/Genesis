@@ -12,7 +12,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8000
+          issuer-uri: ${ISSUER_URI}
   cloud:
     consul:
       host: ${CONSUL_HOST}
@@ -30,19 +30,20 @@ spring:
         default-context: ${spring.application.name}
         backend: genesis
       authentication: token
-      token: ${VAULT_TOKEN}
-      scheme: ${VAULT_SCHEME}
-      host: ${VAULT_HOST}
-      port: ${VAULT_PORT}
+      token: ${VAULT_TOKEN:hvs.oRQnuUvCLMPYf1UQw0cEW3Yb}
+      scheme: ${VAULT_SCHEME:http}
+      host: ${VAULT_HOST:localhost}
+      port: ${VAULT_PORT:8200}
     gateway:
       routes:
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/api/oauth2/**, /api/auth/signup
+            - Path=/api/oauth2/**, /api/auth/signup, /api/users/**
           filters:
             - RewritePath=/api/oauth2/(?<segment>.*), /oauth2/$\{segment}
             - RewritePath=/api/auth/signup, /signup
+            - RewritePath=/api/users, /users
         - id: product
           uri: lb://product-service
           predicates:
