@@ -58,6 +58,36 @@ spring:
         handleDebitBalanceCommand-out-0:
           destination: debit-balance-reply-topic
 
+resilience4j:
+  circuitbreaker:
+    instances:
+      order-service-client:
+        registerHealthIndicator: true
+        event-consumer-buffer-size: 10
+        slidingWindowSize: 5
+        slidingWindowType: COUNT_BASED
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+  timelimiter:
+    instances:
+      order-service-client:
+        timeout-duration: 3s
+  retry:
+    instances:
+      order-service-client:
+        # retry for a maximum of 3 attempts, each with a delay of 3s.
+        max-attempts: 3
+        wait-duration: 3s
+  bulkhead:
+    instances:
+      order-service-client:
+        # allow max 10 concurrent requests
+        maxConcurrentCalls: 10
+        # when we get any additional requests for service when the existing 10 threads are busy,
+        # we wait for only 10 ms and fail the request immediately
+        maxWaitDuration: 10m
+
 management:
   endpoints:
     web:
@@ -69,3 +99,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true

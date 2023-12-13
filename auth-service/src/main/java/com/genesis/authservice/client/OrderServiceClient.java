@@ -17,7 +17,8 @@ public interface OrderServiceClient {
     RestResponse<ListResponse<OrderResponse>> getListOrder(
             @RequestParam Long userId,
             @RequestParam(required = false) boolean all,
-            @RequestParam(required = false) boolean failure
+            @RequestParam(required = false) boolean failure,
+            @RequestParam(required = false) int delay
     );
 
 }

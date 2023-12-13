@@ -7,6 +7,7 @@ import com.genesis.orderservice.dto.response.OrderResponse;
 import com.genesis.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Duration;
 
+@Slf4j
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -35,8 +38,12 @@ public class OrderController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam Long userId,
             @RequestParam(required = false) boolean all,
-            @RequestParam(required = false) boolean failure
-    ) {
+            @RequestParam(required = false) boolean failure,
+            @RequestParam(required = false) int delay
+    ) throws InterruptedException {
+        log.info("Receive get list order request");
+        if (delay > 0)
+            Thread.sleep(delay);
         return ResponseEntity.ok(orderService.getListOrder(page, size, userId, all, failure));
     }
 

@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RestResponse<UserResponse> getOneUser(Long id, boolean failure) {
-        List<OrderResponse> orders = orderServiceClient.getListOrder(id, true, failure).data().items();
+    public RestResponse<UserResponse> getOneUser(Long id, boolean failure, int delay) {
+        List<OrderResponse> orders = orderServiceClient.getListOrder(id, true, failure, delay).data().items();
 
         return userRepository.findByIdWithRoles(id)
                 .map(user -> userMapper.toUserResponse(user)
