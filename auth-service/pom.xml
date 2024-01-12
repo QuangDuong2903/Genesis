@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.genesis</groupId>
@@ -24,6 +24,8 @@
 		<micrometer-tracing-bridge-brave.version>1.1.5</micrometer-tracing-bridge-brave.version>
 		<feign-micrometer.version>13.1</feign-micrometer.version>
 		<rsql-jpa-spring-boot-starter.verison>6.0.17</rsql-jpa-spring-boot-starter.verison>
+		<datasource-proxy-spring-boot-starter.version>1.9.1</datasource-proxy-spring-boot-starter.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -118,6 +120,16 @@
 			<groupId>io.github.perplexhub</groupId>
 			<artifactId>rsql-jpa-spring-boot-starter</artifactId>
 			<version>${rsql-jpa-spring-boot-starter.verison}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.gavlyukovskiy</groupId>
+			<artifactId>datasource-proxy-spring-boot-starter</artifactId>
+			<version>${datasource-proxy-spring-boot-starter.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.genesis</groupId>

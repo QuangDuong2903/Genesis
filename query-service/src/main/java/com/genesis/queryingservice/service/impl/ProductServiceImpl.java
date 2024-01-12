@@ -17,6 +17,10 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductMapper productMapper;
 
+    @Override
+    public void createProduct(ProductAggregate aggregate) {
+        productRepository.save(productMapper.toProduct(aggregate));
+    }
 
     @Override
     public void updateProduct(ProductAggregate aggregate) {

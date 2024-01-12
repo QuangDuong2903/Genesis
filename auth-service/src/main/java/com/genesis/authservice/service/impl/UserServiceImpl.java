@@ -48,6 +48,9 @@ public class UserServiceImpl implements UserService {
                 .withBalance(BigDecimal.valueOf(1000000))
                 .withRoles(Set.of(role));
         userRepository.save(user);
+        streamBridge.send(CQRSChannel.CREATE_USER, MessageBuilder.withPayload(
+                new Command<>(user.getId(), userMapper.toAggregate(user))
+        ).build());
         return RestResponse.created(null);
     }
 

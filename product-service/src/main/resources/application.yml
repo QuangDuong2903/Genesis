@@ -64,6 +64,19 @@ spring:
         handleCompensateQuantityCommand-out-0:
           destination: compensate-quantity-reply-topic
 
+logging:
+  level:
+    web: trace
+    org.hibernate.orm.jdbc.bind: trace
+    net.ttddyy.dsproxy.listener: debug
+
+decorator:
+  datasource:
+    datasource-proxy:
+      logging: slf4j
+      multiline: true
+      format-sql: true
+
 management:
   endpoints:
     web:

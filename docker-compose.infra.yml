@@ -3,28 +3,28 @@ version: '3.8'
 name: genesis-infra
 
 services:
-  genesis-infra-prometheus:
-    container_name: genesis-infra-prometheus
-    image: prom/prometheus:v2.48.1
-    restart: always
-    volumes:
-      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus:/prometheus
-    ports:
-      - "9090:9090"
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-    networks:
-      - genesis-network
-
-  genesis-infra-grafana:
-    container_name: genesis-infra-grafana
-    image: grafana/grafana:10.2.2
-    restart: always
-    ports:
-      - "3000:3000"
-    networks:
-      - genesis-network
+#  genesis-infra-prometheus:
+#    container_name: genesis-infra-prometheus
+#    image: prom/prometheus:v2.48.1
+#    restart: always
+#    volumes:
+#      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - prometheus:/prometheus
+#    ports:
+#      - "9090:9090"
+#    command:
+#      - --config.file=/etc/prometheus/prometheus.yml
+#    networks:
+#      - genesis-network
+#
+#  genesis-infra-grafana:
+#    container_name: genesis-infra-grafana
+#    image: grafana/grafana:10.2.2
+#    restart: always
+#    ports:
+#      - "3000:3000"
+#    networks:
+#      - genesis-network
 
   genesis-infra-consul:
     image: hashicorp/consul:1.14
@@ -62,12 +62,26 @@ services:
     networks:
       - genesis-network
 
+  genesis-infra-zipkin:
+    container_name: genesis-infra-zipkin
+    image: openzipkin/zipkin:3
+    restart: unless-stopped
+    ports:
+      - "9411:9411"
+    networks:
+      - genesis-network
+
 volumes:
   prometheus:
+    driver: local
   consul:
+    driver: local
   vault-file:
+    driver: local
   vault-log:
+    driver: local
   vault-logs:
+    driver: local
 
 networks:
   genesis-network:

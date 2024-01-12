@@ -66,6 +66,15 @@ public class CommandHandler {
     }
 
     @Bean
+    public Consumer<Message<Command<Long, ProductAggregate>>> handleCreateProductCommand() {
+        return message -> {
+            ProductAggregate aggregate = objectMapper.convertValue(message.getPayload().payload(),
+                    new TypeReference<>() {});
+            productService.createProduct(aggregate);
+        };
+    }
+
+    @Bean
     public Consumer<Message<Command<Long, ProductAggregate>>> handleUpdateProductCommand() {
         return message -> {
             ProductAggregate aggregate = objectMapper.convertValue(message.getPayload().payload(),
@@ -74,6 +83,14 @@ public class CommandHandler {
         };
     }
 
+    @Bean
+    public Consumer<Message<Command<Long, UserAggregate>>> handleCreateUserCommand() {
+        return message -> {
+            UserAggregate aggregate = objectMapper.convertValue(message.getPayload().payload(),
+                    new TypeReference<>() {});
+            userService.createUser(aggregate);
+        };
+    }
 
     @Bean
     public Consumer<Message<Command<Long, UserAggregate>>> handleUpdateUserCommand() {

@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     public RestResponse<ProductResponse> createProduct(CreateProductRequest request) {
         Product product = productMapper.toProduct(request);
         productRepository.save(product);
-        streamBridge.send(CQRSChannel.UPDATE_PRODUCT, MessageBuilder.withPayload(
+        streamBridge.send(CQRSChannel.CREATE_PRODUCT, MessageBuilder.withPayload(
                 new Command<>(product.getId(), productMapper.toAggregate(product))
         ).build());
         return RestResponse.created(productMapper.toProductResponse(product));

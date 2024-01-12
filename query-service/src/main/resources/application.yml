@@ -21,7 +21,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
     open-in-view: false
   sql:
     init:
@@ -47,12 +46,12 @@ spring:
         default-context: ${spring.application.name}
         backend: genesis
       authentication: token
-      token: ${VAULT_TOKEN}
-      scheme: ${VAULT_SCHEME}
-      host: ${VAULT_HOST}
-      port: ${VAULT_PORT}
+      token: ${VAULT_TOKEN:hvs.oRQnuUvCLMPYf1UQw0cEW3Yb}
+      scheme: ${VAULT_SCHEME:http}
+      host: ${VAULT_HOST:localhost}
+      port: ${VAULT_PORT:8200}
     function:
-      definition: handleCreateCategoryCommand;handleUpdateCategoryCommand;handleCreateOrderCommand;handleUpdateOrderCommand;handleUpdateUserCommand;handleUpdateProductCommand
+      definition: handleCreateCategoryCommand;handleUpdateCategoryCommand;handleCreateOrderCommand;handleUpdateOrderCommand;handleCreateUserCommand;handleUpdateUserCommand;handleCreateProductCommand;handleUpdateProductCommand
     stream:
       bindings:
         handleCreateCategoryCommand-in-0:
@@ -63,10 +62,27 @@ spring:
           destination: create-order-topic
         handleUpdateOrderCommand-in-0:
           destination: update-order-topic
+        handleCreateUserCommand-in-0:
+          destination: create-user-topic
         handleUpdateUserCommand-in-0:
           destination: update-user-topic
+        handleCreateProductCommand-in-0:
+          destination: create-product-topic
         handleUpdateProductCommand-in-0:
           destination: update-product-topic
+
+logging:
+  level:
+    web: trace
+    org.hibernate.orm.jdbc.bind: trace
+    net.ttddyy.dsproxy.listener: debug
+
+decorator:
+  datasource:
+    datasource-proxy:
+      logging: slf4j
+      multiline: true
+      format-sql: true
 
 redis:
   host: ${REDIS_HOST}

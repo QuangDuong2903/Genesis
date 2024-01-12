@@ -19,7 +19,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
     open-in-view: false
   sql:
     init:
@@ -57,6 +56,19 @@ spring:
           destination: debit-balance-topic
         handleDebitBalanceCommand-out-0:
           destination: debit-balance-reply-topic
+
+logging:
+  level:
+    web: trace
+    org.hibernate.orm.jdbc.bind: trace
+    net.ttddyy.dsproxy.listener: debug
+
+decorator:
+  datasource:
+    datasource-proxy:
+      logging: slf4j
+      multiline: true
+      format-sql: true
 
 resilience4j:
   circuitbreaker:

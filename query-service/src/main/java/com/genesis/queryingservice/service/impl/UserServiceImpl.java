@@ -15,10 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+
+    @Override
+    public void createUser(UserAggregate aggregate) {
+        userRepository.save(userMapper.toUser(aggregate));
+    }
 
     @Override
     public void updateUser(UserAggregate aggregate) {

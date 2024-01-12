@@ -25,6 +25,8 @@ public abstract class UserMapper {
     @Mapping(target = "id", ignore = true)
     abstract User idToUser(Long id);
 
+    public abstract User toUser(UserAggregate aggregate);
+
     public abstract void toUser(@MappingTarget User user, UserAggregate aggregate);
 
     Set<Role> roleIdsToRoles(List<Long> ids) {

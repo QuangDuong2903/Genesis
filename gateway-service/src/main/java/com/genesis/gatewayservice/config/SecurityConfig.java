@@ -48,8 +48,7 @@ public class SecurityConfig {
                                 .pathMatchers("/actuator/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "api/oauth2/v1/token").permitAll()
                         .pathMatchers(HttpMethod.GET, "api/auth/signup").permitAll()
-//                        .pathMatchers("eureka/dashboard").permitAll()
-//                        .pathMatchers(HttpMethod.GET, "api/users").hasAuthority("SCOPE_ROLE_ADMIN")
+                        .pathMatchers(HttpMethod.GET, "api/users/**").hasAuthority("SCOPE_ADMIN")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
