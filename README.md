@@ -75,7 +75,7 @@ Now you have to create secret for each service, click **Create secret**. For exa
 for field **Path for this secret**. You can enable the Json above and paste this as **Secret data**
 ```json
 {
-  "CONSUL_HOST": "genesis-infra-consul",
+  "CONSUL_HOST": "localhost",
   "CONSUL_PORT": "8500",
   "CONSUL_TOKEN": "200274eb-bdf5-3324-d065-28ecd61ff8be",
   "DB_HOST": "52.79.219.185",
@@ -86,7 +86,25 @@ for field **Path for this secret**. You can enable the Json above and paste this
   "RABBITMQ_PASSWORD": "123456",
   "RABBITMQ_PORT": "5672",
   "RABBITMQ_USERNAME": "quangduong",
-  "ZIPKIN_HOST": "52.79.219.185",
+  "ZIPKIN_HOST": "localhost",
+  "ZIPKIN_PORT": "9411"
+}
+```
+For production environment, create _auth-service/prod_
+```json
+{
+  "CONSUL_HOST": "genesis-ìnfra-consul",
+  "CONSUL_PORT": "8500",
+  "CONSUL_TOKEN": "200274eb-bdf5-3324-d065-28ecd61ff8be",
+  "DB_HOST": "52.79.219.185",
+  "DB_PASSWORD": "123456",
+  "DB_PORT": "5432",
+  "DB_USERNAME": "quangduong",
+  "RABBITMQ_HOST": "52.79.219.185",
+  "RABBITMQ_PASSWORD": "123456",
+  "RABBITMQ_PORT": "5672",
+  "RABBITMQ_USERNAME": "quangduong",
+  "ZIPKIN_HOST": "genesis-ìnfra-zipkin",
   "ZIPKIN_PORT": "9411"
 }
 ```

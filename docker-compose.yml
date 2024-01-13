@@ -18,6 +18,10 @@ services:
       VAULT_SCHEME: http
       VAULT_PORT: 8200
       VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    healthcheck:
+      interval: 30s
+      retries: 10
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8000/actuator/health" ]
     ports:
       - "8000:8000"
     networks:
@@ -38,6 +42,13 @@ services:
       VAULT_SCHEME: http
       VAULT_PORT: 8200
       VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+    healthcheck:
+      interval: 30s
+      retries: 10
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8080/actuator/health" ]
+    depends_on:
+      genesis-auth-service:
+        condition: service_healthy
     ports:
       - "8080:8080"
     networks:

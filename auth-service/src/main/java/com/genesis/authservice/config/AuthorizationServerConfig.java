@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.genesis.commons.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -53,6 +54,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
+    @Value("${ISSUER_URI}")
+    private String issuerUri;
+
     private final UserDetailsService userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
 
@@ -91,7 +95,7 @@ public class AuthorizationServerConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .issuer("http://localhost:8000")
+                .issuer(issuerUri)
                 .authorizationEndpoint("/oauth2/v1/authorize")
                 .deviceAuthorizationEndpoint("/oauth2/v1/device_authorization")
                 .deviceVerificationEndpoint("/oauth2/v1/device_verification")

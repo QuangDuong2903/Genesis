@@ -24,6 +24,7 @@ spring:
         acl-token: ${CONSUL_TOKEN}
         fail-fast: false
         prefer-ip-address: true
+        query-passing: true
     vault:
       kv:
         enabled: true
@@ -59,7 +60,7 @@ spring:
             - RewritePath=/api/categories, /product/categories
             - RewritePath=/api/categories/(?<segment>.*), /product/categories/$\{segment}
         - id: get-orders
-          uri: lb://querying-service
+          uri: lb://query-service
           predicates:
             - Method=GET
             - Path=/api/orders/**
