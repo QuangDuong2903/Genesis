@@ -39,7 +39,7 @@ public class OrderController {
             @RequestParam Long userId,
             @RequestParam(required = false) boolean all,
             @RequestParam(required = false) boolean failure,
-            @RequestParam(required = false) int delay
+            @RequestParam(defaultValue = "0") int delay
     ) throws InterruptedException {
         log.info("Receive get list order request");
         if (delay > 0)

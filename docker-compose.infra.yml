@@ -70,6 +70,7 @@ services:
       - "9411:9411"
     networks:
       - genesis-network
+
   genesis-infra-elasticsearch:
     container_name: genesis-infra-elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
@@ -100,7 +101,7 @@ services:
     image: docker.elastic.co/kibana/kibana:8.10.4
     restart: unless-stopped
     volumes:
-      - ./docker/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - "5601:5601"
     command: >
@@ -118,14 +119,14 @@ services:
     volumes:
       - ./docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./docker/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./docker/logstash/pipeline:/usr/share/logstash/pipeline
+      - ./docker/logstash/pipeline/:/usr/share/logstash/pipeline/
     ports:
       - "5044:5044"
     environment:
       LS_JAVA_OPTS: -Xmx256m -Xms256m
     depends_on:
       genesis-infra-elasticsearch:
-        condition: service_started
+        condition: service_healthy
     networks:
       - genesis-network
 
@@ -136,7 +137,7 @@ services:
     command: filebeat -e -strict.perms=false
     volumes:
       - ./docker/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - /logs:/logs
+      - E:\logs:/logs
     depends_on:
       genesis-infra-logstash:
         condition: service_started
@@ -153,6 +154,8 @@ volumes:
   vault-log:
     driver: local
   vault-logs:
+    driver: local
+  elasticsearch-data:
     driver: local
 
 networks:

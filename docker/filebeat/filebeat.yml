@@ -1,0 +1,60 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/auth-service-logs/auth-service.log
+    fields:
+      service_name: auth-service
+      fields_under_root: true
+    multiline:
+      pattern: '^\d{4}-\d{2}-\d{2}'
+      negate: true
+      match: after
+  - type: log
+    enabled: true
+    paths:
+      - /logs/gateway-service-logs/gateway-service.log
+    fields:
+      service_name: gateway-service
+      fields_under_root: true
+    multiline:
+      pattern: '^\d{4}-\d{2}-\d{2}'
+      negate: true
+      match: after
+  - type: log
+    enabled: true
+    paths:
+      - /logs/order-service-logs/order-service.log
+    fields:
+      service_name: order-service
+      fields_under_root: true
+    multiline:
+      pattern: '^\d{4}-\d{2}-\d{2}'
+      negate: true
+      match: after
+  - type: log
+    enabled: true
+    paths:
+      - /logs/product-service-logs/product-service.log
+    fields:
+      service_name: product-service
+      fields_under_root: true
+    multiline:
+      pattern: '^\d{4}-\d{2}-\d{2}'
+      negate: true
+      match: after
+  - type: log
+    enabled: true
+    paths:
+      - /logs/query-service-logs/query-service.log
+    fields:
+      service_name: query-service
+      fields_under_root: true
+    multiline:
+      pattern: '^\d{4}-\d{2}-\d{2}'
+      negate: true
+      match: after
+
+output.logstash:
+  enabled: true
+  hosts: ['genesis-infra-logstash:5044']

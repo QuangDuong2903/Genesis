@@ -36,7 +36,7 @@ public class UserController {
     @Bulkhead(name = "order-service-client", fallbackMethod = "fallbackMethod")
     public CompletableFuture<ResponseEntity<RestResponse<UserResponse>>> getOneUser(
             @RequestParam(required = false) boolean failure,
-            @RequestParam(required = false) int delay,
+            @RequestParam(defaultValue = "0") int delay,
             @PathVariable Long id
     ) {
         return CompletableFuture.supplyAsync(() -> ResponseEntity.ok(userService.getOneUser(id, failure, delay)));

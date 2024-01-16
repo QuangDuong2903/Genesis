@@ -1,0 +1,10 @@
+server:
+  host: '0.0.0.0'
+  shutdownTimeout: '5s'
+
+elasticsearch:
+  hosts: ['http://genesis-infra-elasticsearch:9200']
+  username: 'kibana_system'
+  password: 'genesis'
+
+monitoring.ui.container.elasticsearch.enabled: true

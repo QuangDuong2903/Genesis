@@ -1,0 +1,2 @@
+- pipeline.id: genesis
+  path.config: '/usr/share/logstash/pipeline/genesis.conf'

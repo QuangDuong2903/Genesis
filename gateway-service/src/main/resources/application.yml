@@ -65,8 +65,8 @@ spring:
             - Method=GET
             - Path=/api/orders/**
           filters:
-            - RewritePath=/api/orders, /querying/orders
-            - RewritePath=/api/orders/(?<segment>.*), /querying/orders/$\{segment}
+            - RewritePath=/api/orders, /query/orders
+            - RewritePath=/api/orders/(?<segment>.*), /query/orders/$\{segment}
         - id: order
           uri: lb://order-service
           predicates:
