@@ -17,6 +17,7 @@ Genesis is a sample microservice codebase built for our Project 1 at UIT.
 This project includes most common patterns in MSA, especially:
 - Saga
 - CQRS (query service)
+You can see our report [here](https://drive.google.com/file/d/1A7Fvd9CN5ped7IM7VtFN6PD-Jg6a0DJm/view?usp=sharing)
 
 ![Alt Text](https://drive.google.com/uc?id=1uSIkfQbSvfEQ2MeJtS9HoQGm6AkZPNwu)
 
