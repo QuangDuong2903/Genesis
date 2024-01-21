@@ -121,7 +121,8 @@ public class AuthorizationServerConfig {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toSet());
             // custom scope
-            authorities.forEach(context.getAuthorizedScopes()::add);
+            if(context.getAuthorizationGrantType().equals(OAuth2PasswordGrantAuthenticationConverter.PASSWORD))
+                authorities.forEach(context.getAuthorizedScopes()::add);
             context.getClaims()
                     .claim("id", user.getId())
                     .claim("authorities", authorities);
