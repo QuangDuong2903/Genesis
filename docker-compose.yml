@@ -2,6 +2,7 @@ version: '3.8'
 
 name: genesis
 
+# N5J7dAKLjRgRwf0QD90swXJszKkHLtyCG+SpvGAEKQE=
 services:
   genesis-auth-service:
     container_name: genesis-auth-service
@@ -17,7 +18,7 @@ services:
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     healthcheck:
       interval: 30s
       retries: 10
@@ -41,7 +42,7 @@ services:
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     healthcheck:
       interval: 30s
       retries: 10
@@ -68,7 +69,7 @@ services:
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     ports:
       - "8020:8020"
     networks:
@@ -88,7 +89,7 @@ services:
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     ports:
       - "8010:8010"
     networks:
@@ -108,7 +109,7 @@ services:
       VAULT_HOST: genesis-infra-vault
       VAULT_SCHEME: http
       VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.oRQnuUvCLMPYf1UQw0cEW3Yb
+      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     ports:
       - "8030:8030"
     networks:

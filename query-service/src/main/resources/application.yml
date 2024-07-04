@@ -7,7 +7,7 @@ spring:
   application:
     name: query-service
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/querying_service
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/query_service
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   rabbitmq:

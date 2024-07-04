@@ -3,26 +3,41 @@ version: '3.8'
 name: genesis-infra
 
 services:
-  genesis-infra-prometheus:
-    container_name: genesis-infra-prometheus
-    image: prom/prometheus:v2.48.1
-    restart: always
-    volumes:
-      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus:/prometheus
+  genesis-infra-postgres:
+    container_name: genesis-infra-postgres
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: quangduong
+      POSTGRES_PASSWORD: 292003
     ports:
-      - "9090:9090"
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - postgres:/var/lib/postgresql/data
     networks:
       - genesis-network
 
-  genesis-infra-grafana:
-    container_name: genesis-infra-grafana
-    image: grafana/grafana:10.2.2
-    restart: always
+  genesis-infra-rabbitmq:
+    image: rabbitmq:3.12.7-management-alpine
+    container_name: genesis-infra-rabbitmq
     ports:
-      - "3000:3000"
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: quangduong
+      RABBITMQ_DEFAULT_PASS: 292003
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - genesis-network
+
+  genesis-infra-redis:
+    image: redis:7.2.5
+    container_name: genesis-infra-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
     networks:
       - genesis-network
 
@@ -71,91 +86,20 @@ services:
     networks:
       - genesis-network
 
-  genesis-infra-elasticsearch:
-    container_name: genesis-infra-elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.4
-    restart: unless-stopped
-    environment:
-      node.name: es-node
-      cluster.name: docker-cluster
-      discovery.type: single-node
-      bootstrap.memory_lock: true
-      ES_JAVA_OPTS: -Xms1g -Xmx1g
-      xpack.license.self_generated.type: basic
-      xpack.security.enabled: true
-      ELASTIC_PASSWORD: genesis
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    healthcheck:
-      interval: 30s
-      retries: 10
-      test: [ "CMD-SHELL", "curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null --user elastic:genesis http://localhost:9200" ]
-    volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
-    networks:
-      - genesis-network
-
-  genesis-infra-kibana:
-    container_name: genesis-infra-kibana
-    image: docker.elastic.co/kibana/kibana:8.10.4
-    restart: unless-stopped
-    volumes:
-      - ./docker/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
-    ports:
-      - "5601:5601"
-    command: >
-      bash -c "curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null --user elastic:genesis http://genesis-infra-elasticsearch:9200/_security/user/kibana_system/_password -H 'Content-Type: application/json' -d '{\"password\": \"genesis\"}' && /usr/local/bin/kibana-docker"
-    depends_on:
-      genesis-infra-elasticsearch:
-        condition: service_healthy
-    networks:
-      - genesis-network
-
-  genesis-infra-logstash:
-    container_name: genesis-infra-logstash
-    image: docker.elastic.co/logstash/logstash:8.10.4
-    restart: unless-stopped
-    volumes:
-      - ./docker/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./docker/logstash/config/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./docker/logstash/pipeline/:/usr/share/logstash/pipeline/
-    ports:
-      - "5044:5044"
-    environment:
-      LS_JAVA_OPTS: -Xmx256m -Xms256m
-    depends_on:
-      genesis-infra-elasticsearch:
-        condition: service_healthy
-    networks:
-      - genesis-network
-
-  genesis-infra-filebeat:
-    container_name: genesis-infra-filebeat
-    image: docker.elastic.co/beats/filebeat:8.10.4
-    restart: unless-stopped
-    command: filebeat -e -strict.perms=false
-    volumes:
-      - ./docker/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - E:\logs:/logs
-    depends_on:
-      genesis-infra-logstash:
-        condition: service_started
-    networks:
-      - genesis-network
-
 volumes:
-  prometheus:
+  postgres:
+    driver: local
+  rabbitmq:
     driver: local
   consul:
+    driver: local
+  redis:
     driver: local
   vault-file:
     driver: local
   vault-log:
     driver: local
   vault-logs:
-    driver: local
-  elasticsearch-data:
     driver: local
 
 networks:
