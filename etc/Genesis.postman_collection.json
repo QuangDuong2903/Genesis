@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "ddcc5250-bdf2-4807-8449-9fa439b2d8ab",
+		"name": "Genesis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "21537436"
+	},
+	"item": [
+		{
+			"name": "Get Access Token By Password Grant",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "secret",
+						"username": "client"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "quangduong",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "292003",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "client-internal",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/oauth2/v1/token"
+			},
+			"response": []
+		},
+		{
+			"name": "Sign Up",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"duongquang\",\r\n    \"password\": \"292003\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/auth/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiIyNGRmMDI1YS04ODk4LTQwYjctYmRlMC02ZDM5MjVlOWIyZmUiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDE3NTEwMzcsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJpZCI6MTczMDY2ODIxMTM1MzAzMDY1NiwiZXhwIjoxNzAxNzUxNjM3LCJpYXQiOjE3MDE3NTEwMzcsImF1dGhvcml0aWVzIjpbIkFETUlOIiwiVVNFUiJdfQ.lU3v2wnofQze7haLcHl1BoTkAUrqBCwwclcnYNp-uPlhXQG_SODCVY-pr9S5yfspQepRo8nEzS23CU1nJ7SYLPOYvYSFBcI_nbuy-Bv6ShX1NtsoltvfjTH3gBO--czPl74TelJVTUKFiHb2LC7TjdQSLiFTOyy017WpRFsLkugqYF93OMOBxMAsIKeIX-6w8EVYFKkvN22feRyb3VvrVIqIqfnBy7CiWKSBcjp4zydPiVrYnV0_ZalFybtuEFvbGNK0Y0qWLWF-77PTfac2nWrBZYoLeb-hONvYwJcUDAMS1bPK_ZfKuzyUcKr_JU4yELaX6nQgNTQcsq6uEki0wA"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Samsung J7\",\r\n    \"description\": \"Phone\",\r\n    \"image\": \"https://cdn.tgdd.vn/Products/Images/42/160729/samsung-galaxy-j6-2018-1-600x600.jpg\",\r\n    \"price\": 5000000,\r\n    \"quantity\": 10,\r\n    \"categoryId\": \"1731894702992658432\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/products"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiI5ZmZiMzQ1YS0wYjllLTQzZmQtYTY1MC03MmY5NWYwZDM4MTQiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDUxMTc5MjgsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vZ2VuZXNpcy1hdXRoLXNlcnZpY2U6ODAwMCIsImlkIjoxNzMwNjY4MjExMzUzMDMwNjU2LCJleHAiOjE3MDUxMTg1MjgsImlhdCI6MTcwNTExNzkyOCwianRpIjoiM2NlNzI4ZGQtN2ViNy00ZGFkLWFiZTMtNzQ2ODU2NjI1MGFmIiwiYXV0aG9yaXRpZXMiOlsiQURNSU4iLCJVU0VSIl19.hPY_jZBOLIqW75eQ374ONGfBUU-Npck_TCmOsBpG4i9LeO_zUp7ExyNYiRPXIBRcKJn2LqbPqBJjXr5xZNGHZWqu_VqwU35Snqqjx-_x6nU1myHx8jcp-z70Q4A4w0XuoTKpe5_m8BlGC34SD2JFMfp1DVOoh4VttBNJjg9_LNiIm1HMvy77539yew0EOd5MenaF2XcA0x7Nw7bf0_f6_6MA1qylcXUsETuRQ7iLRQY5VMKXXUiT97RVgTXoarCddmB-VAODbeOOz9F7ERrfSwngffAzr06xO7ueFqNQ3KCh-FE5Cz2YzuhiBZ6Bil9I_lCwGPLfU3iTJ0TlP2WSBA"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Mobile Phones 3\",\r\n    \"slug\": \"mobile-phones 3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/categories"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiI4NzJjOWUzYi01NmMwLTQzMGUtYTdlZi0yY2YxMzJkOGE4NWYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDIwOTc1NDUsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJpZCI6MTczMDY2ODIxMTM1MzAzMDY1NiwiZXhwIjoxNzAyMDk4MTQ1LCJpYXQiOjE3MDIwOTc1NDUsImF1dGhvcml0aWVzIjpbIkFETUlOIiwiVVNFUiJdfQ.C2BVOGitlXFjKkvxfNl2k_EWUFbC8MONSVcpzyUhsr6BXkKTbB3zOnk1FQKqOMqcGyXfe9TqboisQcOZMP-URU2zKSq0uh9LrXXzFw-8vfoiYTMcxFDPtRpSnH4yeAj1ZU1uIpAUNfnDT1hub6MDKmFd-fstyMjg3attD1BbNujZV7Pk7GtXNieEbbefZqzbqOYXW7ZBLXlPX7aEWiHdDWDhaj_B1K7Wc8H0y2Hu7uLgonuIfHHyLG6f6nWKgd4_OZH21Yjmr6acfzbNYxXRSLyVhQhfrj4ayRdDsjPhSCZ6EUUYHfw8obq0f9iu8vi3b0bKmMBCsx5h26Y-Wi13wg"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"total\": 10000000,\r\n    \"items\": [\r\n        {\r\n            \"productId\": \"1731896341040336896\",\r\n            \"quantity\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiIyMzk4ZTM4NC00ZjM0LTQ4OGYtYjg5Yi1jMzhjNTQ5MDIzMDQiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDE5NjQyNTAsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJpZCI6MTczMDY2ODIxMTM1MzAzMDY1NiwiZXhwIjoxNzAxOTY0ODUwLCJpYXQiOjE3MDE5NjQyNTAsImF1dGhvcml0aWVzIjpbIkFETUlOIiwiVVNFUiJdfQ.VPpHki5ogLQ9k-cJwdM9PTtd51Donqne2c-axP195kzQWIsZ-78qqddevl6c7LEcEXNlh0QCkIdfYXqinXVysIKwCR6BoOxc8MFb6mC0keQlOabOOm7Knua3NnSI3rtlO-h1VR2W3TaAMd6GNQEJJY1ZEvVQHAEWGXRZ9RoXcvZvuEQN3Vcm1_nmmqObO7ubINkze9g3lOGAsQleraJCUE5Jx60qde-c7LNuufrLQuHoEa_t0PAvVa9v86brnb1jmXZ4CrP5HOrSh-XaLWHRA5MIC3daREDUBA4yaZxQZ2JUGNMPwrveJpRvIwTFhL5HHSpvWGPhnll5OYCdhef-8g"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Mobile Phones 1\",\r\n    \"slug\": \"mobile-phones 1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/api/categories/1732789818372526080"
+			},
+			"response": []
+		},
+		{
+			"name": "Get List Orders",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiIzNGI2ZTVmOC1hMTIyLTQ0MjgtOGZiOC0zMmI5ZWM1ZTA3NDAiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDUzOTA0MDIsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJpZCI6MTczMDY2ODIxMTM1MzAzMDY1NiwiZXhwIjoxNzA1MzkxMDAyLCJpYXQiOjE3MDUzOTA0MDIsImp0aSI6IjU4OGM4OTg2LWQ0MWEtNDRhNy05ZjNiLWFlNjc1Mzc0ZjMwOCIsImF1dGhvcml0aWVzIjpbIkFETUlOIiwiVVNFUiJdfQ.cK78tb5cKqLVTWJ2Wy-y6LNL4grIeWi4zylCZjIYD3jEQgig87W5rvib62-EBFgnv8jFQqJOFSTcZgfzxlSahICgqfLxcbn4VBRe1XYaeBWPd7Z6_2TJG7u0tFZETweXSQAMa3W-cXQFnEJPA2ch-6pTkuJP-QzcPbSfLD-sLdN3mtsW1pYHNffCAT37Hsr8iHwGyuxYTdoYX0IgijcwMna3q7uY25Ck59dxCnse0zJ8ep11aS_jZ3lUy8xUeExBmQCTDU2GUaox7ZToTt3rombfd9XUJklzZVXlZwB1l2_T8qYMByN2Idz2zoGZKSD2uRgtj7xCOeImquaBI8d1iQ"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/orders?price=500000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "price",
+							"value": "500000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get One User [Resilient4j demo]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJraWQiOiI0YjE1YTE0Ni02YzNmLTRjMWYtOWRhNS05ZWRhZmRiM2Y4ZWMiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjbGllbnQiLCJhdWQiOiJjbGllbnQiLCJuYmYiOjE3MDU2ODcxMTUsInNjb3BlIjpbIkFETUlOIiwiVVNFUiIsImNsaWVudC1pbnRlcm5hbCJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAiLCJpZCI6MTczMDY2ODIxMTM1MzAzMDY1NiwiZXhwIjoxNzA1Njg3NzE1LCJpYXQiOjE3MDU2ODcxMTUsImp0aSI6ImM2YWExZTcxLTU3YTYtNDQ2ZC1iYzlhLTljMDc4MDVlY2RiOCIsImF1dGhvcml0aWVzIjpbIkFETUlOIiwiVVNFUiJdfQ.Oa1W4bBwqKtyRgCYbqqRcJBUC-ykKm_aJzItR3Q2L12gGZMbDwpZEeTkxSlVtefGRKmdf2ZHD6ow0sT5NH16AfwPYeIL4UilCg1Tarq07AYstvIstcKXBPGz_SaWtdBGXIbvdRhqiL2I7C3n191YfxBv7_kiGFafXxYmmkD5RVDlu3O2NuBMNfdc_rzKwMyNiio5loArRC6v19P6FQoRECYYQoltJxnjW_M7QpWPC6NBXALQHI1WqlxYwkpH1llRd-YRbMLRBh0dlxFS2Ky04JQoYFjOxNhjuYV724W1qy58nMxhpbxGfNl5ZGRlV6k1YxvYiEV7Fg-GYURekOh1zQ"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/users/1730668211353030656?failure=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1730668211353030656"
+					],
+					"query": [
+						{
+							"key": "failure",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Access Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "client",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"type": "text"
+						},
+						{
+							"key": "code",
+							"value": "QYK7qSzItiZs_PhJadBLaVWEeR3aAczrLABBBy-tz7kyW5Nz91BN8IjD-pwx24nJWPJSMCbfFQnNOLNRfLex-7C7lkP0S_XwV1yBNmtc97Lf4ajC2qq0-tWYqWKGhKgC",
+							"type": "text"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oidcdebugger.com/debug",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8080/api/oauth2/v1/token"
+			},
+			"response": []
+		}
+	]
+}

@@ -15,6 +15,7 @@
         <module>product-service</module>
         <module>query-service</module>
         <module>commons</module>
+        <module>dummy-service</module>
     </modules>
 
 </project>

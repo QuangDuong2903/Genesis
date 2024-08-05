@@ -1,0 +1,53 @@
+version: '3.8'
+
+name: genesis-jenkins
+
+services:
+  genesis-jenkins-docker:
+    container_name: genesis-jenkins-docker
+    image: docker:dind
+    privileged: true
+    restart: always
+    command: --storage-driver overlay2
+    volumes:
+      - jenkins-docker-certs:/certs/client
+      - jenkins-data:/var/jenkins_home
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    ports:
+      - "2376:2376"
+    networks:
+      jenkins:
+        aliases:
+          - docker
+
+  genesis-jenkins-server:
+    container_name: genesis-jenkins-server
+    restart: always
+    depends_on:
+      genesis-jenkins-docker:
+        condition: service_started
+    build:
+      context: ./docker/jenkins
+      dockerfile: Dockerfile
+    volumes:
+      - jenkins-docker-certs:/certs/client:ro
+      - jenkins-data:/var/jenkins_home
+    environment:
+      - DOCKER_HOST=tcp://docker:2376
+      - DOCKER_CERT_PATH=/certs/client
+      - DOCKER_TLS_VERIFY=1
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    networks:
+      - jenkins
+volumes:
+  jenkins-docker-certs:
+    driver: local
+  jenkins-data:
+    driver: local
+
+networks:
+  jenkins:
+    driver: bridge

@@ -2,116 +2,129 @@ version: '3.8'
 
 name: genesis
 
-# N5J7dAKLjRgRwf0QD90swXJszKkHLtyCG+SpvGAEKQE=
 services:
-  genesis-auth-service:
-    container_name: genesis-auth-service
-    image: genesis-auth-service
-    restart: unless-stopped
-    build:
-      context: ./auth-service
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: auth-service
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      VAULT_HOST: genesis-infra-vault
-      VAULT_SCHEME: http
-      VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
-    healthcheck:
-      interval: 30s
-      retries: 10
-      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8000/actuator/health" ]
-    ports:
-      - "8000:8000"
-    networks:
-      - genesis-network
+#  genesis-auth-service:
+#    container_name: genesis-auth-service
+#    image: genesis-auth-service
+#    restart: unless-stopped
+#    build:
+#      context: ./auth-service
+#      dockerfile: Dockerfile
+#      args:
+#        SERVICE_NAME: auth-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      VAULT_HOST: genesis-infra-vault
+#      VAULT_SCHEME: http
+#      VAULT_PORT: 8200
+#      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
+#    healthcheck:
+#      interval: 30s
+#      retries: 10
+#      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8000/actuator/health" ]
+#    ports:
+#      - "8000:8000"
+#    networks:
+#      - genesis-network
+#
+#  genesis-gateway-service:
+#    container_name: genesis-gateway-service
+#    image: genesis-gateway-service
+#    restart: unless-stopped
+#    build:
+#      context: ./gateway-service
+#      dockerfile: Dockerfile
+#      args:
+#        SERVICE_NAME: gateway-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      VAULT_HOST: genesis-infra-vault
+#      VAULT_SCHEME: http
+#      VAULT_PORT: 8200
+#      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
+#    healthcheck:
+#      interval: 30s
+#      retries: 10
+#      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8080/actuator/health" ]
+#    depends_on:
+#      genesis-auth-service:
+#        condition: service_healthy
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - genesis-network
+#
+#  genesis-order-service:
+#    container_name: genesis-order-service
+#    image: genesis-order-service
+#    restart: unless-stopped
+#    build:
+#      context: ./order-service
+#      dockerfile: Dockerfile
+#      args:
+#        SERVICE_NAME: order-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      VAULT_HOST: genesis-infra-vault
+#      VAULT_SCHEME: http
+#      VAULT_PORT: 8200
+#      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
+#    ports:
+#      - "8020:8020"
+#    networks:
+#      - genesis-network
+#
+#  genesis-product-service:
+#    container_name: genesis-product-service
+#    image: genesis-product-service
+#    restart: unless-stopped
+#    build:
+#      context: ./product-service
+#      dockerfile: Dockerfile
+#      args:
+#        SERVICE_NAME: product-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      VAULT_HOST: genesis-infra-vault
+#      VAULT_SCHEME: http
+#      VAULT_PORT: 8200
+#      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
+#    ports:
+#      - "8010:8010"
+#    networks:
+#      - genesis-network
+#
+#  genesis-query-service:
+#    container_name: genesis-query-service
+#    image: genesis-query-service
+#    restart: unless-stopped
+#    build:
+#      context: ./query-service
+#      dockerfile: Dockerfile
+#      args:
+#        SERVICE_NAME: query-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: prod
+#      VAULT_HOST: genesis-infra-vault
+#      VAULT_SCHEME: http
+#      VAULT_PORT: 8200
+#      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
+#    ports:
+#      - "8030:8030"
+#    networks:
+#      - genesis-network
 
-  genesis-gateway-service:
-    container_name: genesis-gateway-service
-    image: genesis-gateway-service
+  genesis-dummy-service:
+    container_name: genesis-dummy-service
+    image: genesis-dummy-service
     restart: unless-stopped
     build:
-      context: ./gateway-service
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: gateway-service
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      VAULT_HOST: genesis-infra-vault
-      VAULT_SCHEME: http
-      VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
-    healthcheck:
-      interval: 30s
-      retries: 10
-      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8080/actuator/health" ]
-    depends_on:
-      genesis-auth-service:
-        condition: service_healthy
-    ports:
-      - "8080:8080"
-    networks:
-      - genesis-network
-
-  genesis-order-service:
-    container_name: genesis-order-service
-    image: genesis-order-service
-    restart: unless-stopped
-    build:
-      context: ./order-service
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: order-service
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      VAULT_HOST: genesis-infra-vault
-      VAULT_SCHEME: http
-      VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
-    ports:
-      - "8020:8020"
-    networks:
-      - genesis-network
-
-  genesis-product-service:
-    container_name: genesis-product-service
-    image: genesis-product-service
-    restart: unless-stopped
-    build:
-      context: ./product-service
-      dockerfile: Dockerfile
-      args:
-        SERVICE_NAME: product-service
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      VAULT_HOST: genesis-infra-vault
-      VAULT_SCHEME: http
-      VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
-    ports:
-      - "8010:8010"
-    networks:
-      - genesis-network
-
-  genesis-query-service:
-    container_name: genesis-query-service
-    image: genesis-query-service
-    restart: unless-stopped
-    build:
-      context: ./query-service
+      context: ./dummy-service
       dockerfile: Dockerfile
       args:
         SERVICE_NAME: query-service
-    environment:
-      SPRING_PROFILES_ACTIVE: prod
-      VAULT_HOST: genesis-infra-vault
-      VAULT_SCHEME: http
-      VAULT_PORT: 8200
-      VAULT_TOKEN: hvs.isQWVE78RwdY0UW5is4SjIng
     ports:
-      - "8030:8030"
+      - "9090:9090"
     networks:
       - genesis-network
 
