@@ -4,6 +4,7 @@ pipeline {
         stage('Build jar file') {
             steps {
                 sh 'cd dummy-service'
+                sh 'chmod +x ./mvnw'
                 sh './mvnw clean install -DskipTests'
             }
         }
