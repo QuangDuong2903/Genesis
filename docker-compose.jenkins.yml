@@ -12,6 +12,7 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
+      - jenkins-docker-data:/var/lib/docker
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     ports:
@@ -46,6 +47,8 @@ volumes:
   jenkins-docker-certs:
     driver: local
   jenkins-data:
+    driver: local
+  jenkins-docker-data:
     driver: local
 
 networks:
