@@ -33,7 +33,6 @@ pipeline {
     post {
         always {
             emailext (
-                to: "${DEFAULT_RECIPIENTS}",
                 subject: "${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!",
                 body: """
                     <p>Build finished. Please check the JaCoCo coverage report.</p>
