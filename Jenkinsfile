@@ -10,7 +10,7 @@ pipeline {
                 sh '''
                     cd dummy-service
                     mvn test
-                    sh 'zip -r dummy-service-jacoco-report.zip /dummy-service/target/site/jacoco'
+                    zip -r dummy-service-jacoco-report.zip /dummy-service/target/site/jacoco
                 '''
             }
         }
