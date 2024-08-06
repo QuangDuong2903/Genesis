@@ -9,15 +9,14 @@ pipeline {
             steps {
                 sh '''
                     cd dummy-service
-                    mvn clean test
-
+                    mvn test
                 '''
             }
         }
 
         stage('Build jar file') {
             steps {
-                sh 'cd dummy-service && mvn clean install -DskipTests'
+                sh 'cd dummy-service && mvn install -DskipTests'
             }
         }
 
