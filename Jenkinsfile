@@ -10,6 +10,7 @@ pipeline {
                 sh '''
                     cd dummy-service
                     mvn test
+                    sh 'zip -r dummy-service-jacoco-report.zip /dummy-service/target/site/jacoco'
                 '''
             }
         }
@@ -40,7 +41,7 @@ pipeline {
                     <p>Check console output at <a href="${env.BUILD_URL}">${env.BUILD_URL}</a> to view the results.</p>
                 """,
                 mimeType: 'text/html',
-                attachmentsPattern: '**/dummy-service/target/site/jacoco/*'
+                attachmentsPattern: 'dummy-service-jacoco-report.zip'
             )
             cleanWs()
         }
