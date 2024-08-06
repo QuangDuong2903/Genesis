@@ -33,10 +33,15 @@ pipeline {
     post {
         always {
             emailext (
-                to: 'quangduongptsc@gmail.com',
-                subject: "Build ${currentBuild.fullDisplayName} Finished",
-                body: """<p>Build finished. Please check the JaCoCo coverage report.</p>""",
-                attachmentsPattern: '**/target/site/jacoco/*'
+                to: "${DEFAULT_RECIPIENTS}",
+                subject: "${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!",
+                body: """
+                    <p>Build finished. Please check the JaCoCo coverage report.</p>
+                    <p>${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}:</p>
+                    <p> Check console output at ${BUILD_URL} to view the results.</p>
+                """,
+                mimeType: 'text/html',
+                attachmentsPattern: '**/dummy-service/target/site/jacoco/*'
             )
             cleanWs()
         }
