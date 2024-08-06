@@ -33,6 +33,7 @@ pipeline {
     post {
         always {
             emailext (
+                to: 'quangduongptsc@gmail.com',
                 subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}!",
                 body: """
                     <p>Build finished. Please check the JaCoCo coverage report.</p>
