@@ -1,3 +1,22 @@
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+
+def zipDir(dirPath, zipFilePath) {
+    def file = new File(zipFilePath)
+    file.withOutputStream { os ->
+        def zos = new ZipOutputStream(os)
+        new File(dirPath).eachFileRecurse { f ->
+            if (!f.isDirectory()) {
+                def relativePath = dirPath.toURI().relativize(f.toURI()).path
+                zos.putNextEntry(new ZipEntry(relativePath))
+                zos << f.bytes
+                zos.closeEntry()
+            }
+        }
+        zos.close()
+    }
+}
+
 pipeline {
     agent any
     tools {
@@ -10,8 +29,11 @@ pipeline {
                 sh '''
                     cd dummy-service
                     mvn test
-                    zip -r dummy-service-jacoco-report.zip /dummy-service/target/site/jacoco
+//                     zip -r dummy-service-jacoco-report.zip /dummy-service/target/site/jacoco
                 '''
+                script {
+                    zipDir('dummy-service/target/site/jacoco', 'dummy-service-jacoco-report.zip')
+                }
             }
         }
 
