@@ -33,11 +33,11 @@ pipeline {
     post {
         always {
             emailext (
-                subject: "${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!",
+                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}!",
                 body: """
                     <p>Build finished. Please check the JaCoCo coverage report.</p>
-                    <p>${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}:</p>
-                    <p> Check console output at ${BUILD_URL} to view the results.</p>
+                    <p>${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${currentBuild.currentResult}:</p>
+                    <p>Check console output at <a href="${env.BUILD_URL}">${env.BUILD_URL}</a> to view the results.</p>
                 """,
                 mimeType: 'text/html',
                 attachmentsPattern: '**/dummy-service/target/site/jacoco/*'
