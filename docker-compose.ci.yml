@@ -1,10 +1,10 @@
 version: '3.8'
 
-name: genesis-jenkins
+name: genesis-ci
 
 services:
-  genesis-jenkins-docker:
-    container_name: genesis-jenkins-docker
+  genesis-ci-docker:
+    container_name: genesis-ci-docker
     image: docker:dind
     privileged: true
     restart: always
@@ -12,21 +12,21 @@ services:
     volumes:
       - jenkins-docker-certs:/certs/client
       - jenkins-data:/var/jenkins_home
-      - jenkins-docker-data:/var/lib/docker
+      - docker-data:/var/lib/docker
     environment:
       - DOCKER_TLS_CERTDIR=/certs
     ports:
       - "2376:2376"
     networks:
-      jenkins:
+      ci:
         aliases:
           - docker
 
-  genesis-jenkins-server:
-    container_name: genesis-jenkins-server
+  genesis-ci-jenkins-server:
+    container_name: genesis-ci-jenkins-server
     restart: always
     depends_on:
-      genesis-jenkins-docker:
+      genesis-ci-docker:
         condition: service_started
     build:
       context: ./docker/jenkins
@@ -42,15 +42,35 @@ services:
       - "8080:8080"
       - "50000:50000"
     networks:
-      - jenkins
+      - ci
+
+  genesis-ci-sonarqube-server:
+    container_name: genesis-ci-sonarqube-server
+    image: sonarqube:alpine
+    restart: always
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-logs:/opt/sonarqube/logs
+      - sonarqube-extensions:/opt/sonarqube/extensions
+    ports:
+      - "9000:9000"
+    networks:
+      - ci
+
 volumes:
   jenkins-docker-certs:
     driver: local
   jenkins-data:
     driver: local
-  jenkins-docker-data:
+  docker-data:
+    driver: local
+  sonarqube-data:
+    driver: local
+  sonarqube-logs:
+    driver: local
+  sonarqube-extensions:
     driver: local
 
 networks:
-  jenkins:
+  ci:
     driver: bridge
