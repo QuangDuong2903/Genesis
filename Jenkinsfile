@@ -13,6 +13,11 @@ pipeline {
                 '''
 //                 zip(zipFile: 'dummy-service-jacoco-report.zip', dir: 'dummy-service/target/site/jacoco', archive: true)
             }
+            post {
+                always {
+                    junit 'dummy-service/target/surefire-reports/*.xml'
+                }
+            }
         }
 
         stage('Build jar file') {
