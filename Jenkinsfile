@@ -11,7 +11,7 @@ pipeline {
                     cd dummy-service
                     mvn test
                 '''
-                zip(zipFile: 'dummy-service-jacoco-report.zip', dir: 'dummy-service/target/site/jacoco', archive: true)
+//                 zip(zipFile: 'dummy-service-jacoco-report.zip', dir: 'dummy-service/target/site/jacoco', archive: true)
             }
         }
 
@@ -41,7 +41,7 @@ pipeline {
                     <p>Check console output at <a href="${env.BUILD_URL}">${env.BUILD_URL}</a> to view the results.</p>
                 """,
                 mimeType: 'text/html',
-                attachmentsPattern: 'dummy-service-jacoco-report.zip'
+//                 attachmentsPattern: 'dummy-service-jacoco-report.zip'
             )
             cleanWs()
         }
