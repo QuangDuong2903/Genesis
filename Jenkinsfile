@@ -25,7 +25,7 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                         cd dummy-service
-                        mvn clean verify sonar:sonar
+                        mvn sonar:sonar
                     '''
                 }
             }

@@ -46,7 +46,7 @@ services:
 
   sonarqube-server:
     container_name: sonarqube-server
-    image: sonarqube:alpine
+    image: sonarqube:9.9.6-community
     restart: always
     volumes:
       - sonarqube-data:/opt/sonarqube/data
