@@ -1,10 +1,10 @@
 version: '3.8'
 
-name: genesis-ci
+name: ci-server
 
 services:
-  genesis-ci-docker:
-    container_name: genesis-ci-docker
+  docker-daemon:
+    container_name: docker-daemon
     image: docker:dind
     privileged: true
     restart: always
@@ -22,11 +22,11 @@ services:
         aliases:
           - docker
 
-  genesis-ci-jenkins-server:
-    container_name: genesis-ci-jenkins-server
+  jenkins-server:
+    container_name: jenkins-server
     restart: always
     depends_on:
-      genesis-ci-docker:
+      docker-daemon:
         condition: service_started
     build:
       context: ./docker/jenkins
@@ -44,8 +44,8 @@ services:
     networks:
       - ci
 
-  genesis-ci-sonarqube-server:
-    container_name: genesis-ci-sonarqube-server
+  sonarqube-server:
+    container_name: sonarqube-server
     image: sonarqube:alpine
     restart: always
     volumes:
