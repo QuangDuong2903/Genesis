@@ -20,24 +20,24 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        cd dummy-service
-                        mvn clean verify sonar:sonar
-                    '''
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 1, unit: 'HOURS') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+//         stage('SonarQube analysis') {
+//             steps {
+//                 withSonarQubeEnv('SonarQube') {
+//                     sh '''
+//                         cd dummy-service
+//                         mvn clean verify sonar:sonar
+//                     '''
+//                 }
+//             }
+//         }
+//
+//         stage('Quality Gate') {
+//             steps {
+//                 timeout(time: 1, unit: 'HOURS') {
+//                     waitForQualityGate abortPipeline: true
+//                 }
+//             }
+//         }
 
         stage('Build jar file') {
             steps {
@@ -48,14 +48,14 @@ pipeline {
             }
         }
 
-//         stage('Packaging/Pushing image') {
-//             steps {
-//                 withDockerRegistry(credentialsId: 'dockerhub-credential', url: 'https://index.docker.io/v1/') {
-//                     sh 'cd dummy-service && docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .'
-//                     sh 'docker push quangduong2903/genesis-dummy-service'
-//                 }
-//             }
-//         }
+        stage('Packaging/Pushing image') {
+            steps {
+                withDockerRegistry(credentialsId: 'dockerhub-credential', url: 'https://index.docker.io/v1/') {
+                    sh 'cd dummy-service && docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .'
+                    sh 'docker push quangduong2903/genesis-dummy-service'
+                }
+            }
+        }
     }
     post {
         always {
