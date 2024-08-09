@@ -22,7 +22,7 @@ pipeline {
 
         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv('Sonar') {
+                withSonarQubeEnv('SonarQube') {
                     sh '''
                         cd dummy-service
                         mvn clean verify sonar:sonar
