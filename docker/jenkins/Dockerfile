@@ -13,4 +13,4 @@ RUN echo \
 RUN apt-get update && apt-get install -y docker-ce-cli && apt-get clean
 
 USER jenkins
-RUN jenkins-plugin-cli --plugins "docker-plugin docker-workflow ssh-agent pipeline-stage-view pipeline-utility-steps sonar"
+RUN jenkins-plugin-cli --plugins "docker-plugin docker-workflow ssh-agent pipeline-stage-view pipeline-utility-steps sonar jacoco"

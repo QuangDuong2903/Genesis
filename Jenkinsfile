@@ -16,6 +16,12 @@ pipeline {
             post {
                 always {
                     junit 'dummy-service/target/surefire-reports/*.xml'
+                    jacoco(
+                        execPattern: 'dummy-service/target/*.exec',
+                        classPattern: 'dummy-service/target/classes',
+                        sourcePattern: 'dummy-service/src/main/java',
+                        exclusionPattern: 'dummy-service/src/test'
+                    )
                 }
             }
         }
@@ -51,25 +57,28 @@ pipeline {
 //         stage('Packaging/Pushing image') {
 //             steps {
 //                 withDockerRegistry(credentialsId: 'dockerhub-credential', url: 'https://index.docker.io/v1/') {
-//                     sh 'cd dummy-service && docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .'
-//                     sh 'docker push quangduong2903/genesis-dummy-service'
+//                 sh '''
+//                     cd dummy-service && docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .
+//                     docker push quangduong2903/genesis-dummy-service
+//                 '''
 //                 }
 //             }
 //         }
-        stage('Deploy') {
-            steps {
-                script {
-                    def deploying = "#!/bin/bash\n" +
-                    "sudo docker run -d --name dummy-service quangduong2903/genesis-dummy-service\n"
 
-                    sshagent (credentials: ['ec2-credential']) {
-                        sh """
-                            ssh -o StrictHostKeyChecking=no -l ubuntu 13.229.64.203 "echo \\\"${deploying}\\\" > deploy.sh && chmod +x deploy.sh && ./deploy.sh"
-                        """
-                    }
-                }
-            }
-        }
+//         stage('Deploy') {
+//             steps {
+//                 script {
+//                     def deploying = "#!/bin/bash\n" +
+//                     "sudo docker run -d --name dummy-service quangduong2903/genesis-dummy-service\n"
+//
+//                     sshagent (credentials: ['ec2-credential']) {
+//                         sh '''
+//                             ssh -o StrictHostKeyChecking=no -l ubuntu 13.229.64.203 "echo \\\"${deploying}\\\" > deploy.sh && chmod +x deploy.sh && ./deploy.sh"
+//                         '''
+//                     }
+//                 }
+//             }
+//         }
     }
     post {
         always {
