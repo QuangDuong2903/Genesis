@@ -56,6 +56,20 @@ pipeline {
 //                 }
 //             }
 //         }
+        stage('Deploy') {
+            steps {
+                script {
+                    def deploying = "#!/bin/bash\n" +
+                    "sudo docker run -d --name dummy-service quangduong2903/genesis-dummy-service\n"
+
+                    sshagent (credentials: ['ec2-credential']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -l ubuntu 13.229.64.203 "echo \\\"${deploying}\\\" > deploy.sh && chmod +x deploy.sh && ./deploy.sh"
+                        """
+                    }
+                }
+            }
+        }
     }
     post {
         always {
