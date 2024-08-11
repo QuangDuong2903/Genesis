@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.genesis</groupId>
 	<artifactId>commons</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>commons</name>
 	<description>commons</description>
 	<properties>
@@ -50,5 +50,27 @@
 			<version>${tsid-creator.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<name>maven-releases</name>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<name>maven-snapshots</name>
+			<url>http://localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>

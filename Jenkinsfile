@@ -58,7 +58,8 @@ pipeline {
 //             steps {
 //                 withDockerRegistry(credentialsId: 'dockerhub-credential', url: 'https://index.docker.io/v1/') {
 //                 sh '''
-//                     cd dummy-service && docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .
+//                     cd dummy-service
+//                      docker build --platform linux/amd64 --build-arg SERVICE_NAME=dummy-service -t quangduong2903/genesis-dummy-service .
 //                     docker push quangduong2903/genesis-dummy-service
 //                 '''
 //                 }

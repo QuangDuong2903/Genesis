@@ -57,6 +57,26 @@ services:
     networks:
       - ci
 
+  nexus-repository:
+    container_name: nexus-repository
+    image: sonatype/nexus3:3.71.0-alpine
+    restart: always
+    volumes:
+      - nexus-data:/nexus-data
+    ports:
+      - "8081:8081"
+    networks:
+      - ci
+
+  reposilite-repository:
+    image: dzikoysk/reposilite:3.5.14
+    container_name: reposilite
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - reposilite-data:/app/data
+
 volumes:
   jenkins-docker-certs:
     driver: local
@@ -69,6 +89,10 @@ volumes:
   sonarqube-logs:
     driver: local
   sonarqube-extensions:
+    driver: local
+  nexus-data:
+    driver: local
+  reposilite-data:
     driver: local
 
 networks:

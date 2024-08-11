@@ -18,6 +18,3 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo systemctl start docker
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
-
-sudo apt-get install openjdk-17-jdk -y
-sudo apt install maven -y
