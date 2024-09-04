@@ -1,0 +1,29 @@
+import com.genesis.rule_service.Payment;
+import java.math.BigDecimal;
+
+rule "Late penalty from 1st day to the 5th day"
+when
+    $payment : Payment(daysLate <= 5)
+then
+    BigDecimal penalty = $payment.getAmount().multiply(BigDecimal.valueOf(1 + (0.05 * $payment.getDaysLate())));
+    $payment.setAmount($payment.getAmount().add(penalty));
+end
+
+rule "Late penalty from 6th day to the 10th day"
+when
+    $payment : Payment(daysLate <= 10)
+then
+    BigDecimal penaltyForFirstFiveDays = $payment.getAmount().multiply(BigDecimal.valueOf(0.25));
+    BigDecimal penalty = penaltyForFirstFiveDays.add($payment.getAmount().multiply(BigDecimal.valueOf(0.1 * ($payment.getDaysLate() - 5))));
+    $payment.setAmount($payment.getAmount().add(penalty));
+end
+
+rule "Penalty from the 11th day onward"
+when
+    $payment : Payment(daysLate >= 11)
+then
+    BigDecimal penaltyForFirstFiveDays = $payment.getAmount().multiply(BigDecimal.valueOf(0.25));
+    BigDecimal penaltyForNextFiveDays = $payment.getAmount().multiply(BigDecimal.valueOf(0.5));
+    BigDecimal penalty = penaltyForFirstFiveDays.add(penaltyForNextFiveDays).add($payment.getAmount().multiply(BigDecimal.valueOf(0.2 * ($payment.getDaysLate() - 10))));
+    $payment.setAmount($payment.getAmount().add(penalty));
+end
