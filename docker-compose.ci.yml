@@ -94,6 +94,7 @@ volumes:
     driver: local
   reposilite-data:
     driver: local
+    
 
 networks:
   ci:
