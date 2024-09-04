@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.genesis</groupId>
 	<artifactId>commons</artifactId>
-	<version>1.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>commons</name>
 	<description>commons</description>
 	<properties>
@@ -62,14 +62,14 @@
 
 	<distributionManagement>
 		<repository>
-			<id>nexus-releases</id>
-			<name>maven-releases</name>
-			<url>http://localhost:8081/repository/maven-releases/</url>
+			<id>reposilite-releases</id>
+			<name>reposilite-releases</name>
+			<url>http://localhost:8080/releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<name>maven-snapshots</name>
-			<url>http://localhost:8081/repository/maven-snapshots/</url>
+			<id>reposilite-snapshots</id>
+			<name>reposilite-snapshots</name>
+			<url>http://localhost:8080/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 
